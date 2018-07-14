@@ -1,0 +1,167 @@
+﻿<html>
+<head>
+
+    <link rel="stylesheet" href="index.css">
+    <!-- this is a development version of the Vue.js framework; it can be found from the Vue tutorial guide: https://vuejs.org/v2/guide/, or
+        you can just copy and paste the script I have below -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- you need this in order to use Vue attributes and methods -->
+    <title>Vue.js Practice</title>
+</head>
+<body>
+
+    <!-- this is how we can define a variable "message" and then dynamically change it from its DOM
+        the DOM, or the Document Object Model is a way to represent the html element in the js file
+        I think it's standard to call these html objects apps (but I'm not too sure)
+        Note: in the css file, there's a special tag called div#app that allows you to use the
+        same css on div class titled app-# or app#; for example, the css would work on div class called app-1 or app1-->
+    <h1 text-align="center">This is a gallery of cool Vue.js things</h1>
+
+    <h3>App #1</h3>
+    <div id="app1">
+        {{ message }}
+    </div>
+
+    <h3>App #2</h3>
+    <div id="app-2">
+        <!-- v-bind is an example of a directive; directives are prefixed with -v, which means
+            that they are attributes Vue provides
+            v-bind allows you to dynamically connect the html element to its DOM -->
+        <span v-bind:title="message">
+            Hover your mouse over me for a few seconds
+            to see my dynamically bound title!
+        </span>
+    </div>
+
+    <!-- this is how you can tie a conditional to a message
+        you can use the conditional to add or remove styles, classes, or text -->
+    <h3>App #3</h3>
+    <div id="app-3">
+        <span v-if="seen">Now you see me</span>
+    </div>
+
+    <!-- this is how you set up a list/array that you can manipulate later in its DOM-->
+    <h3>App #4</h3>
+    <div id="app-4">
+        <ol>
+            <li v-for="tod in todos">
+                {{ tod.text }}
+            </li>
+        </ol>
+    </div>
+
+    <!-- this is how you can create a button so that the user can interact with the website;
+        in other words, they invoke a method that you created in its DOM
+        in this case, the user can click a button to reverse the message-->
+    <h3>App #5</h3>
+    <div id="app-5">
+        <p>{{ message }}</p>
+        <button v-on:click="reverseMessage">Click me to reverse the message above (you can do it repeatedly)</button>
+    </div>
+
+    <!-- two-way binding between form input and app state -->
+    <h3>App #6</h3>
+    <div id="app-6">
+        <p>{{ message }}</p>
+        <br />
+        <input v-model="message" placeholder="Type something here and it will show up above" size="50" />
+
+    </div>
+
+    <!-- this is essentially a more complex way to do app-4, or create a list, but it allows
+        you to create components and customize them apart from the parent app -->
+    <h3>App #7</h3>
+    <div id="app-7">
+        <ol>
+            <!--
+              Now we provide each todo-item with the todo object
+              it's representing, so that its content can be dynamic.
+              We also need to provide each component with a "key",
+              which will be explained later.
+            -->
+            <todo-item v-for="item in groceryList"
+                       v-bind:todo="item"
+                       v-bind:key="item.id">
+            </todo-item>
+        </ol>
+    </div>
+
+    <!-- for the next two apps, I was just testing/guessing whether or not nodes can affect each other
+        I wanted to make one switch the text of another node
+        unfortunately, I was unsuccessful (though it may be because I'm not using the right method-->
+    <h3>App #8 and 9</h3>
+    <div id="app-8">
+        <div v-if="onOff">On</div>
+        <div v-if="!onOff">Off</div>
+        <button v-on:click="OnOff()">Switch</button>
+    </div>
+
+    <div id="app-9">
+        <div v-if="onOff">On</div>
+        <div v-if="!onOff">Off</div>
+        <button v-on:click="OnOff()">Switch</button>
+    </div>
+    <br />
+    <!-- the "styleObject" is defined here and this allows you to style the text in the
+        DOM -->
+    <h3>App #10</h3>
+    <div id="app-10">
+        <div class="box1" v-bind:style="styleObject">
+            Some random text
+        </div>
+    </div>
+
+    <br />
+    <h3>App #11</h3>
+    <div id="app-11">
+        <!-- v-bind:class allows you to reference a style tag you created in a css file
+            (in this case, I'm referencing the .green tag and .red tag in index.css, which just makes the
+            background color of the box green and the background color of the box red respectively)
+            moreover, we can use the onOff variable to specify whether or not the green tag is used
+            for instance, if onOff = true, then the green tag will be on; otherwise, the red tag will be on
+            -->
+        <div class="box2" v-bind:class="{ green: onOff, red: !onOff }" v-bind:style="styleObject">
+            <div v-if="onOff">On</div>
+            <div v-if="!onOff">Off</div>
+        </div>
+        <button v-on:click="toggleOnOff()">Click me to turn the box on or off</button>
+    </div>
+
+    <h3>App #12</h3>
+    <div id="app-12">
+        <h3>Type a valid color and the box will show that color</h3>
+        <br />
+        <!-- this is how we can request user input
+            here we also define a variable/property called keyword-->
+        <input type="text" v-model="keyword" />
+        <!-- this is how we can dynamically set the background color of the box based on the user input-->
+        <div class="box" v-bind:style="{ backgroundColor: keyword}"></div>
+    </div>
+    <br />
+    <br />
+    <br />
+
+    <h3>App #13</h3>
+    <div id="app-13">
+        <div class="search-wrapper">
+
+            <input type="text" v-model="keyword" placeholder="Search a JS Framework" />
+
+        </div>
+
+        <div class="wrapper">
+            <!-- the card div is some css that makes the boxes have a shadow -->
+            <div class="card" v-for="post in filteredList" target="_blank">
+                <!-- here we can't just do a href since we are referencing an attribute of a node -->
+                <a v-bind:href="post.link">
+                    <img v-bind:src="post.img " />
+                    <small>Posted by {{ post.author }}</small>
+                    {{ post.title }}
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>
