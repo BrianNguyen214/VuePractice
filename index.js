@@ -15,7 +15,9 @@ aMessage.message = 'I changed the message using the console';
 var app2 = new Vue({
     el: '#app-2',
     data: {
-        message: 'You loaded this page on ' + new Date().toLocaleString()
+        //the Date() method refreshes everytime the page is refreshed
+        message1: 'You loaded this page on ' + new Date().toLocaleString(),
+        message2: 'Neat stuff'
     }
 });
 
@@ -34,16 +36,19 @@ var app4 = new Vue({
     el: '#app-4',
     data: {
         //note that the 'todos' and the 'text' need to match with what it says in the html file
+        //for each item, you can have as much info/attributes as you want
         todos: [
-            { text: 'Learn JavaScript' },
-            { text: 'Learn Vue' },
-            { text: 'Build something awesome' }
-        ]
+            { text: 'Learn JavaScript', id: 1},
+            { text: 'Learn Vue', id: 2 },
+            { text: 'Build something awesome', id: 3 }
+        ],
+
+        count: 5,
     }
 })
 
 //this is how you can add an item to a list in the console
-app4.todos.push({ text: 'Added another Item' })
+app4.todos.push({ text: 'Added another Item', id: 4 })
 
 var app5 = new Vue({
     el: '#app-5',
@@ -273,6 +278,54 @@ const app13 = new Vue({
     }
 });
 
+const app14 = new Vue({
+    el: '#app-14',
+    data: {
+        message1: 'Hello World',
+        message2: 'This is sample text <small>More random text</small>'
+    }
+});
+
+const app15 = new Vue({
+    el: '#app-15',
+    data: {
+        message: 'Howdy',
+    }
+});
+
+const app16 = new Vue({
+    el: '#app-16',
+    data: {
+        message: 'Howdy',
+        count: 0,
+    },
+
+    methods: {
+        countUp: function () {
+            this.count += 1
+        },
+
+        countDown: function () {
+            this.count -= 1
+        }
+    }
+});
+
+const app17 = new Vue({
+    el: '#app-17',
+    data: {
+        message: 'Yo',
+        url: "",
+        cleanUrl: "",
+    },
+    
+    methods: {
+        humanizeUrl: function () {
+            //this is some regular expressions syntax stuff; not too important to know
+            this.cleanUrl = this.url.replace(/^https?:\/\//, '').replace(/\/$/, '')
+        }
+    }
+});
 
 
 

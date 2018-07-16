@@ -11,7 +11,7 @@
 <body>
 
     <!-- this is how we can define a variable "message" and then dynamically change it from its DOM
-        the DOM, or the Document Object Model is a way to represent the html element in the js file
+        the DOM, or the Document Object Model is a way to represent the html element in the js (which can be found in the js file in this case)
         I think it's standard to call these html objects apps (but I'm not too sure)
         Note: in the css file, there's a special tag called div#app that allows you to use the
         same css on div class titled app-# or app#; for example, the css would work on div class called app-1 or app1-->
@@ -25,29 +25,64 @@
     <h3>App #2</h3>
     <div id="app-2">
         <!-- v-bind is an example of a directive; directives are prefixed with -v, which means
-            that they are attributes Vue provides
-            v-bind allows you to dynamically connect the html element to its DOM -->
-        <span v-bind:title="message">
+        that they are attributes Vue provides
+        v-bind allows you to dynamically connect the html element to its DOM-->
+        <span v-bind:title="message1">
             Hover your mouse over me for a few seconds
             to see my dynamically bound title!
         </span>
+        <br />
+        <br />
+        <!-- you can replace v-bind: with just : -->
+        <span :title="message2">
+            Another usage of v-bind
+        </span>
     </div>
 
-    <!-- this is how you can tie a conditional to a message
+    <!-- this is how you can tie a conditional to a message by using the v-if directive
         you can use the conditional to add or remove styles, classes, or text -->
     <h3>App #3</h3>
     <div id="app-3">
+        <!-- at face value, both of these directives are similar; they either display or don't
+            display content on the web page; also, both of these directives take boolean variables/statements;
+            in this case, the boolean variable is 'seen'
+            the difference between v-if and v-show is that v-if will take it out
+            of its DOM, but v-show simply doesn't show it; you can still see the
+            html if you inspect the element-->
         <span v-if="seen">Now you see me</span>
+        <!-- if the statement above isn't true, then the statement below shows-->
+        <span v-else>But now you see this</span>
+        <br />
+        <span v-show="seen">You see me too!</span>
+
     </div>
 
     <!-- this is how you set up a list/array that you can manipulate later in its DOM-->
     <h3>App #4</h3>
     <div id="app-4">
         <ol>
-            <li v-for="tod in todos">
-                {{ tod.text }}
+            <!-- the style stuff removes the default numbers attached to the items -->
+            <li style="list-style-type:none;" v-for="todo in todos">
+                <!-- instead of the default numbering, I'm putting the id and closing parenthesis -->
+                {{ todo.id }}) {{ todo.text }}
             </li>
+
         </ol>
+
+        <h4>This is another list</h4>
+        <!-- this is how you can repeat something multiple times
+        count is set to 5 in the DOM, so it will repeat the message 5 times
+        the variable 'item' can be called anything; in this case its set to 'item'; it works like python-->
+        <li v-for="item in count">
+            Repeated message
+        </li>
+
+        <h4>Yet another list</h4>
+        <!-- this is how you can get the count number
+        count is still set to 5 in the DOM -->
+        <li v-for="item in count">
+            Item #{{ item }}
+        </li>
     </div>
 
     <!-- this is how you can create a button so that the user can interact with the website;
@@ -59,7 +94,13 @@
         <button v-on:click="reverseMessage">Click me to reverse the message above (you can do it repeatedly)</button>
     </div>
 
-    <!-- two-way binding between form input and app state -->
+    <!-- two-way binding between form input and app state
+        any change in the app will affect its DOM, or any change in the DOM will affect its app
+        the user input is put into the DOM and then the DOM returns the info back out
+        obviously, this example just spits back out something that the user inputs, but the concept of
+        two-way binding is powerful
+        this allows us to take a user input and automatically change its DOM, and thus
+        could automatically change some output displayed on the screen-->
     <h3>App #6</h3>
     <div id="app-6">
         <p>{{ message }}</p>
@@ -102,6 +143,7 @@
         <button v-on:click="OnOff()">Switch</button>
     </div>
     <br />
+
     <!-- the "styleObject" is defined here and this allows you to style the text in the
         DOM -->
     <h3>App #10</h3>
@@ -151,7 +193,7 @@
 
         <div class="wrapper">
             <!-- the card div is some css that makes the boxes have a shadow -->
-            <div class="card" v-for="post in filteredList" target="_blank">
+            <div class="card" v-for="post in filteredList" >
                 <!-- here we can't just do a href since we are referencing an attribute of a node -->
                 <a v-bind:href="post.link">
                     <img v-bind:src="post.img " />
@@ -161,6 +203,48 @@
             </div>
         </div>
     </div>
+    <!-- here is where the v-html and v-text directives are introduced
+        and what's the difference between them-->
+    <h3>App #14</h3>
+    <div id="app-14">
+        <!-- message1 is just text, so using v-text or v-html doesn't make a difference-->
+        <h3 v-text="message1"></h3>
+        <h3 v-html="message1"></h3>
+        <!-- message2 includes html (some small html code), so using v-text or v-html does make a difference
+            text simply returns pure text, but html renders html code found in the message-->
+        <h3 v-text="message2"></h3>
+        <h3 v-html="message2"></h3>
+    </div>
+    <br />
+    <!-- this is the v-cloak directive, which allows you to hide the "moustache brackets" before Vue
+        has time to render the property; this isn't too important -->
+    <h3>App #15</h3>
+
+    <div id="app-15">
+        <h3 v-cloak>{{ message }}</h3>
+    </div>
+    <br />
+    <h3>App #16</h3>
+
+    <div id="app-16">
+        <h4>The count is {{ count }}</h4>
+        <button v-on:click="countUp">Press Me to Increase the Count</button>
+        <!-- instead of v-on:, you can replace it with @ -->
+        <button @click="countDown">Press Me to Decrease the Count</button>
+    </div>
+    <br />
+    <h3>App #17</h3>
+
+    <div id="app-17">
+        <!-- remember that v-bind: can be replaced with : -->
+        <p>
+            Visit: <a :href="url">{{ cleanUrl }}</a>
+        </p>
+        <h5>Input a valid url, and a "humanized" url will show up that you can click</h5>
+        <input type="text" v-model="url" />
+        <button @click="humanizeUrl">Click Me to Humanize the Url</button>
+    </div>
+
 
     <script src="index.js"></script>
 </body>
