@@ -69,7 +69,9 @@
                 get: function () {
                     var result = this.first;
                     if (this.last != '') { //we need this conditional since it would add a space to the first name, screwing things up
-                        result += ' ' + this.last;
+                        //this part right here is the reason why adding a middle name won't work
+                        //maybe I'll go back to this to add that functionality
+                        result += ' ' + this.last; 
                         this.count = 2;
                     }
                     
